@@ -4,7 +4,17 @@
     <title>Steven Food Inc</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <link rel="stylesheet" href="main.css">
-    <script>
+    <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7QPzcQgJMxsdYwWF0n1tOC0BcB7tr2b8&callback=initMap&v=weekly"
+    defer>
+    </script>
+  </head>
+  <body>
+    <h3>Steven Food Map</h3>
+    <!--The div element for the map -->
+    <div id="map"></div>
+
+    <script type="text/javascript">
       var locations = [
         ['Stumptown Coffee Roasters',35.01130598642082, 135.76049387273298,10],
         ['Smart Coffee',35.01067329597341, 135.76710283543494,9],
@@ -17,38 +27,30 @@
         ['Blue Bottle Coffee Kyoto',35.00779248468596, 135.76115131328748,2],
         ['58 Cafe Coffee House',34.99568944882778, 135.78192642862973,1]
       ];
-
+      
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
-        center: new map google.maps.LatLng(35.01, 135.70),
-        mapTypeId: google.maps.mapTypeId.ROADMAP
+        center: new google.maps.LatLng(-33.92, 151.25),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
       });
-
-      var infowindow = new google.map.InfoWindow();
+      
+      var infowindow = new google.maps.InfoWindow();
+  
       var marker, i;
-
-      for (i = 0; i < locations.length; i++) {
+      
+      for (i = 0; i < locations.length; i++) {  
         marker = new google.maps.Marker({
           position: new google.maps.LatLng(locations[i][1], locations[i][2]),
           map: map
         });
-
+        
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
           return function() {
             infowindow.setContent(locations[i][0]);
             infowindow.open(map, marker);
           }
-        })(marker, i))
+        })(marker, i));
       }
     </script>
-  </head>
-  <body>
-    <h3>Steven Food Map</h3>
-    <!--The div element for the map -->
-    <div id="map"></div>
-    <script async
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7QPzcQgJMxsdYwWF0n1tOC0BcB7tr2b8&callback=initMap&v=weekly"
-      defer
-    ></script>
   </body>
 </html>

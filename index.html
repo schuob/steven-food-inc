@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Steven Food Inc</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <title>ETH Price Charts</title>
     <link rel="stylesheet" href="main.css">
-    <script async
-    src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&v=weekly"
-    defer>
-    </script>
     <script src="https://cdn.withpersona.com/dist/persona-v4.6.0.js"></script>
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
     <script>
       const client = new Persona.Client({
         templateId: "itmpl_NoybydNL9ExcJaf27Astou77",
@@ -24,46 +20,138 @@
     </script>
   </head>
   <body>
-    <h3>Steven Food Map</h3>
-    <!--The div element for the map -->
-    <div id="map"></div>
+    <h3>ETH</h3>
+    <script>
+      document.body.style.position = 'relative';
 
-    <script type="text/javascript">
-      var locations = [
-        ['Stumptown Coffee Roasters',35.01130598642082, 135.76049387273298,10],
-        ['Smart Coffee',35.01067329597341, 135.76710283543494,9],
-        ['Starbucks Kyoto',35.01095449233202, 135.76718866611935,8],
-        ['Weekenders Coffee',35.0080721838287, 135.76461374558613,7],
-        ['Drip & Drop Coffe',35.006263774927305, 135.7685078537702,6],
-        ['Arabica Kyoto Arashiyama',35.013911257076884, 135.67650940946982,5]
-        ['Coffee Block',34.99702018891987, 135.74931442862967,4],
-        ['Kurasu Kyoto Stand',34.98671161972425, 135.75386182862974,3],
-        ['Blue Bottle Coffee Kyoto',35.00779248468596, 135.76115131328748,2],
-        ['58 Cafe Coffee House',34.99568944882778, 135.78192642862973,1]
-      ];
-      
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: new google.maps.LatLng(35.01, 135.75),
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var width = 600;
+      var height = 300;
+
+      var chart = LightweightCharts.createChart(container, {
+	      width: width,
+	      height: height,
+        crosshair: {
+		    mode: LightweightCharts.CrosshairMode.Normal,
+	      },
       });
-      
-      var infowindow = new google.maps.InfoWindow();
-  
-      var marker, i;
-      
-      for (i = 0; i < locations.length; i++) {  
-        marker = new google.maps.Marker({
-          position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-          map: map
-        });
-        
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-          return function() {
-            infowindow.setContent(locations[i][0]);
-            infowindow.open(map, marker);
+
+      var candleSeries = chart.addCandlestickSeries();
+      var data = generateBarsData();
+      candleSeries.setData(data);
+
+      var smaData = calculateSMA(data, 10);
+      var smaLine = chart.addLineSeries({
+	      color: 'rgba(4, 111, 232, 1)',
+	      lineWidth: 2,
+      });
+      smaLine.setData(smaData);
+
+      var legend = document.createElement('div');
+      legend.className = 'sma-legend';
+      container.appendChild(legend);
+      legend.style.display = 'block';
+      legend.style.left = 3 + 'px';
+      legend.style.top = 3 + 'px';
+
+      function setLegendText(priceValue) {
+	      let val = 'n/a';
+	      if (priceValue !== undefined) {
+		      val = (Math.round(priceValue * 100) / 100).toFixed(2);
+	      }
+	      legend.innerHTML = 'MA10 <span style="color:rgba(4, 111, 232, 1)">' + val + '</span>';
+      }
+
+      setLegendText(smaData[smaData.length - 1].value);
+
+      chart.subscribeCrosshairMove((param) => {
+  	    setLegendText(param.seriesPrices.get(smaLine));
+      });
+
+      function calculateSMA(data, count){
+        var avg = function(data) {
+          var sum = 0;
+          for (var i = 0; i < data.length; i++) {
+            sum += data[i].close;
           }
-        })(marker, i));
+          return sum / data.length;
+        };
+        var result = [];
+        for (var i=count - 1, len=data.length; i < len; i++){
+          var val = avg(data.slice(i - count + 1, i));
+          result.push({ time: data[i].time, value: val});
+        }
+        return result;
+      }
+
+      function generateBarsData(period) {
+	      var res = [];
+	      var controlPoints = generateControlPoints(res, period);
+	      for (var i = 0; i < controlPoints.length - 1; i++) {
+		      var left = controlPoints[i];
+		      var right = controlPoints[i + 1];
+		      fillBarsSegment(left, right, res);
+	      }
+	      return res;
+      }
+
+      function fillBarsSegment(left, right, points) {
+        var deltaY = right.price - left.price;
+        var deltaX = right.index - left.index;
+        var angle = deltaY / deltaX;
+        for (var i = left.index; i <= right.index; i++) {
+          var basePrice = left.price + (i - left.index) * angle;
+          var openNoise = (0.1 - Math.random() * 0.2) + 1;
+          var closeNoise = (0.1 - Math.random() * 0.2) + 1;
+          var open = basePrice * openNoise;
+          var close = basePrice * closeNoise;
+          var high = Math.max(basePrice * (1 + Math.random() * 0.2), open, close);
+          var low = Math.min(basePrice * (1 - Math.random() * 0.2), open, close);
+          points[i].open = open;
+          points[i].high = high;
+          points[i].low = low;
+          points[i].close = close;
+        }
+      }
+
+      function generateControlPoints(res, period, dataMultiplier) {
+        var time = period !== undefined ? period.timeFrom : { day: 1, month: 1, year: 2018 };
+        var timeTo = period !== undefined ? period.timeTo : { day: 1, month: 1, year: 2019 };
+        var days = getDiffDays(time, timeTo);
+        dataMultiplier = dataMultiplier || 1;
+        var controlPoints = [];
+        controlPoints.push({ index: 0, price: getRandomPrice() * dataMultiplier });
+        for (var i = 0; i < days; i++) {
+          if (i > 0 && i < days - 1 && Math.random() < 0.05) {
+            controlPoints.push({ index: i, price: getRandomPrice() * dataMultiplier });
+          }
+          res.push({ time: time });
+          time = nextBusinessDay(time);
+        }
+        controlPoints.push({ index: res.length - 1, price: getRandomPrice() * dataMultiplier });
+        return controlPoints;
+      }
+
+      function getDiffDays(dateFrom, dateTo) {
+        var df = convertBusinessDayToUTCTimestamp(dateFrom);
+        var dt = convertBusinessDayToUTCTimestamp(dateTo);
+        var diffTime = Math.abs(dt.getTime() - df.getTime());
+        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      }
+
+      function convertBusinessDayToUTCTimestamp(date) {
+        return new Date(Date.UTC(date.year, date.month - 1, date.day, 0, 0, 0, 0));
+      }
+
+      function nextBusinessDay(time) {
+        var d = convertBusinessDayToUTCTimestamp({ year: time.year, month: time.month, day: time.day + 1 });
+        return { year: d.getUTCFullYear(), month: d.getUTCMonth() + 1, day: d.getUTCDate() };
+      }
+
+      function getRandomPrice() {
+        return 10 + Math.round(Math.random() * 10000) / 100;
       }
     </script>
   </body>

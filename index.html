@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ETH Price Charts</title>
+    <title>StevenCoin Price Charts</title>
     <link rel="stylesheet" href="main.css">
     <script src="https://cdn.withpersona.com/dist/persona-v4.6.0.js"></script>
     <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
@@ -20,7 +20,7 @@
     </script>
   </head>
   <body>
-    <h3>ETH</h3>
+    <h3>StevenCoin</h3><br><br>
     <script>
       document.body.style.position = 'relative';
 
@@ -61,7 +61,7 @@
 	      if (priceValue !== undefined) {
 		      val = (Math.round(priceValue * 100) / 100).toFixed(2);
 	      }
-	      legend.innerHTML = 'MA10 <span style="color:rgba(4, 111, 232, 1)">' + val + '</span>';
+	      legend.innerHTML = 'StevenCoin <span style="color:rgba(4, 111, 232, 1)">' + val + '</span>';
       }
 
       setLegendText(smaData[smaData.length - 1].value);

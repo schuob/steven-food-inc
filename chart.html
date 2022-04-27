@@ -34,13 +34,6 @@
       });
       smaLine.setData(smaData);
 
-      // Make Chart Responsive with screen size
-      new ResizeObserver(entries => {
-        if (entries.length === 0 || entries[0].target !== chartContainer) { return; }
-        const newRect = entries.[0].contentReact;
-        chart.applyOptions({ height: newReact.height, width: newRect.width });
-      }).observe(chartContainer);
-
       var legend = document.createElement('div');
       legend.className = 'sma-legend';
       container.appendChild(legend);

@@ -6,12 +6,14 @@
     <script src="https://cdn.withpersona.com/dist/persona-v4.6.0.js"></script>
     <script>
       const client = new Persona.Client({
-        templateId: "itmpl_NoybydNL9ExcJaf27Astou77",
+        templateId: "itmpl_iCdmwL5GndR39JTNKN1ixghY",
         environment: "production",
         onReady: () => client.open(),
         onComplete: ({ inquiryId, status, fields }) => {
           // Inquiry completed. Optionally tell your server about it.
           console.log(`Sending finished inquiry ${inquiryId} to backend`);
+          // redirecting to charts page on completion
+          location.href = "https://schuob.github.io/steven-food-inc/chart.html";
         },
         onCancel: ({ inquiryId, sessionToken }) => console.log('onCancel'),
         onError: (error) => console.log(error),

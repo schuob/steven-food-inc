@@ -13,7 +13,7 @@
           // Inquiry completed. Optionally tell your server about it.
           console.log(`Sending finished inquiry ${inquiryId} to backend`);
           // redirecting to charts page on completion
-          location.href = "https://schuob.github.io/steven-food-inc/chart.html";
+          window.location.replace = "https://schuob.github.io/steven-food-inc/chart.html";
         },
         onCancel: ({ inquiryId, sessionToken }) => console.log('onCancel'),
         onError: (error) => console.log(error),

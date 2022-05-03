@@ -12,6 +12,7 @@
         onComplete: ({ inquiryId, status, fields }) => {
           // Inquiry completed. Optionally tell your server about it.
           console.log(`Sending finished inquiry ${inquiryId} to backend`);
+          // redirecting to charts page on completion
           window.location.href = "https://schuob.github.io/steven-food-inc/chart.html";
         },
         onCancel: ({ inquiryId, sessionToken }) => console.log('onCancel'),
@@ -20,6 +21,6 @@
     </script>
   </head>
   <body>
-    <div ><img class="inner" src="logo.png" width="250" height="250"></img></div>
+    <div ><img class="inner" src="logo.png"></img></div>
   </body>
 </html>

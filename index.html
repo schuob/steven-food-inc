@@ -3,10 +3,17 @@
   <head>
     <title>Checking Identity</title>
     <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+    <div ><img class="inner" src="logo.png" width="250" height="250"></img></div>
+    <input name="templateId" type="text" maxlength="512" id="templateId" class="templateId" value="itmpl_iCdmwL5GndR39JTNKN1ixghY"/>
+    <button onClick=runCheck()>Start Check</button>
     <script src="https://cdn.withpersona.com/dist/persona-v4.6.0.js"></script>
     <script>
-      const client = new Persona.Client({
-        templateId: "itmpl_iCdmwL5GndR39JTNKN1ixghY",
+      var template_id = document.getElementById("templateId").value;
+      function runCheck() {
+        const client = new Persona.Client({
+        templateId: template_id,
         environment: "production",
         onReady: () => client.open(),
         onComplete: ({ inquiryId, status, fields }) => {
@@ -18,9 +25,7 @@
         onCancel: ({ inquiryId, sessionToken }) => console.log('onCancel'),
         onError: (error) => console.log(error),
       });
+      }
     </script>
-  </head>
-  <body>
-    <div ><img class="inner" src="logo.png" onclick="client.open()"></img></div>
   </body>
 </html>

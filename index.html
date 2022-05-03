@@ -5,21 +5,25 @@
     <link rel="stylesheet" href="main.css">
     <script src="https://cdn.withpersona.com/dist/persona-v4.6.0.js"></script>
     <script>
-      const client = new Persona.Client({
-        templateId: "itmpl_iCdmwL5GndR39JTNKN1ixghY",
-        environment: "production",
-        onReady: () => client.open(),
-        onComplete: ({ inquiryId, status, fields }) => {
-          // Inquiry completed. Optionally tell your server about it.
-          console.log(`Sending finished inquiry ${inquiryId} to backend`);
-          // redirecting to charts page on completion
-          window.location.href = "https://schuob.github.io/steven-food-inc/chart.html";
-        },
-        onCancel: ({ inquiryId, sessionToken }) => console.log('onCancel'),
-        onError: (error) => console.log(error),
-      });
+      function startCheck() {
+        const client = new Persona.Client({
+          templateId: "itmpl_iCdmwL5GndR39JTNKN1ixghY",
+          environment: "production",
+          onReady: () => client.open(),
+          onComplete: ({ inquiryId, status, fields }) => {
+            // Inquiry completed. Optionally tell your server about it.
+            console.log(`Sending finished inquiry ${inquiryId} to backend`);
+            // redirecting to charts page on completion
+            window.location.href = "https://schuob.github.io/steven-food-inc/chart.html";
+          },
+          onCancel: ({ inquiryId, sessionToken }) => console.log('onCancel'),
+          onError: (error) => console.log(error),
+        });
+      }
     </script>
   </head>
   <body>
+    <div ><img class="inner" src="logo.png"></img></div>
+    <button onClick=startCheck()>Start Check</button>
   </body>
 </html>

@@ -17,13 +17,15 @@
             window.location.href = "https://schuob.github.io/steven-food-inc/chart.html";
           },
           onCancel: ({ inquiryId, sessionToken }) => console.log('onCancel'),
-          onError: (error) => console.log(error),
+          onError: (error) => {
+            console.log(error);
+            window.location.href = "https://schuob.github.io/steven-food-inc/fail.html";
+          },
         });
       }
     </script>
   </head>
   <body>
-    <div ><img class="center-screen" src="logo.png"></img></div>
-    <button class="center-screen" onClick=startCheck()>Start Check</button>
+    <button class="center-screen" onClick="startCheck()">Start Check</button>
   </body>
 </html>

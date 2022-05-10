@@ -9,6 +9,7 @@
         const client = new Persona.Client({
           templateId: "tmpl_LoTehLLAZjGuaPoG7PNqxPTw",
           environment: "production",
+          referenceId: "c07769",
           onReady: () => client.open(),
           onComplete: ({ inquiryId, status, fields }) => {
             // Inquiry completed. Optionally tell your server about it.

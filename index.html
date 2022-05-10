@@ -15,14 +15,7 @@
             // Inquiry completed. Optionally tell your server about it.
             console.log(`Sending finished inquiry ${inquiryId} with status ${status} to backend`);
             // redirecting to charts page on completion
-            setTimeout(function(){
-              if (status == "completed") {
-                window.location.href = "https://schuob.github.io/steven-food-inc/chart.html";
-              } else {
-                window.location.href = "https://schuob.github.io/steven-food-inc/failed.html";
-              };
-            }, 0000);
-          },
+          }
           onCancel: ({ inquiryId, sessionToken }) => console.log('onCancel'),
           onError: (error) => console.log(error),
         });
@@ -33,5 +26,3 @@
     <button class="center-screen" onClick="startCheck()">Start Check</button>
   </body>
 </html>
-
-

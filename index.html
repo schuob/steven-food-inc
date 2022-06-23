@@ -16,8 +16,9 @@
             // redirecting to charts page on completion
           },
           onEvent: (eventName, data) => {
-            console.log(eventName),
-            console.log(data)
+            if (eventName == "start") {
+              console.log(data.inquiryId)
+            }
           },
           onCancel: ({ inquiryId, sessionToken }) => console.log('onCancel'),
           onError: (error) => console.log(error),

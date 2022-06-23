@@ -15,7 +15,7 @@
             console.log(`Sending finished inquiry ${inquiryId} with status ${status} to backend`);
             // redirecting to charts page on completion
           },
-          onEvent: ("start", data) => console.log
+          onEvent: ({"start", data}) => console.log('onEvent'),
           onCancel: ({ inquiryId, sessionToken }) => console.log('onCancel'),
           onError: (error) => console.log(error),
         });

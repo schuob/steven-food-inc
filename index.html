@@ -20,7 +20,9 @@
               console.log(data.inquiryId)
             }
           },
-          onCancel: ({ inquiryId, sessionToken }) => console.log('onCancel'),
+          onCancel: ({ inquiryId, sessionToken }) => {
+            console.log(data)
+          },
           onError: (error) => console.log(error),
         });
       }

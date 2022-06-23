@@ -15,7 +15,7 @@
             console.log(`Sending finished inquiry ${inquiryId} with status ${status} to backend`);
             // redirecting to charts page on completion
           },
-          onEvent: (eventName, data) => {
+          onEvent: async (eventName, data) => {
             if (eventName == "start") {
               console.log(data.inquiryId)
             }

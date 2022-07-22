@@ -326,19 +326,19 @@
     <body>
     <div class="container">
         Persona Onboarding Status
-        <div class="row">
+        <div class="row" id="content">
+            <script type="text/javascript">
+                const source = new EventSource('https://e757-98-234-0-20.ngrok.io/sse-events');
+          
+                source.addEventListener('message', message => {
+                  console.log('Got', message);
+          
+                  // Display the event data in the `content` div
+                  document.querySelector('#content').innerHTML = event.data;
+                });
+              </script>
         </div>
     </div>
-    <script type="text/javascript">
-      const source = new EventSource('https://e757-98-234-0-20.ngrok.io/sse-events');
-
-      source.addEventListener('message', message => {
-        console.log('Got', message);
-
-        // Display the event data in the `content` div
-        document.querySelector('#row').innerHTML = event.data;
-      });
-    </script>
   </body>
 </html>
 

@@ -6,14 +6,16 @@
     <script src="https://cdn.withpersona.com/dist/persona-v4.6.0.js"></script>
 <script src="https://cdn.withpersona.com/dist/persona-v4.2.0.js"></script>
 <script>
-  const client = new Persona.Client({
-    templateId: 'itmpl_dnNeUYenAnxBEMs4XWqR92Cx',
-    environment: 'sandbox',
-    onReady: () => client.open(),
-    onComplete: ({ inquiryId, status, fields }) => {
-      console.log(`Completed inquiry ${inquiryId} with status ${status}`);
-    }
-  });
+  function startCheck() {
+    const client = new Persona.Client({
+      templateId: 'itmpl_dnNeUYenAnxBEMs4XWqR92Cx',
+      environment: 'sandbox',
+      onReady: () => client.open(),
+      onComplete: ({ inquiryId, status, fields }) => {
+        console.log(`Completed inquiry ${inquiryId} with status ${status}`);
+      }
+    });
+  }
 </script>
   </head>
   <body>

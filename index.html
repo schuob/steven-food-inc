@@ -4,29 +4,17 @@
     <title>Checking Identity</title>
     <link rel="stylesheet" href="main.css">
     <script src="https://cdn.withpersona.com/dist/persona-v4.6.0.js"></script>
-    <script>
-      function startCheck() {
-        const client = new Persona.Client({
-          templateId: "tmpl_LoTehLLAZjGuaPoG7PNqxPTw",
-          environment: "production",
-          onReady: () => client.open(),
-          onComplete: ({ inquiryId, status, fields }) => {
-            // Inquiry completed. Optionally tell your server about it.
-            console.log(`Sending finished inquiry ${inquiryId} with status ${status} to backend`);
-            // redirecting to charts page on completion
-          },
-          onEvent: async (eventName, data) => {
-            if (eventName == "start") {
-              console.log(data.inquiryId)
-            }
-          },
-          onCancel: ({ inquiryId, sessionToken }) => {
-            console.log(data)
-          },
-          onError: (error) => console.log(error),
-        });
-      }
-    </script>
+<script src="https://cdn.withpersona.com/dist/persona-v4.2.0.js"></script>
+<script>
+  const client = new Persona.Client({
+    templateId: 'itmpl_dnNeUYenAnxBEMs4XWqR92Cx',
+    environment: 'sandbox',
+    onReady: () => client.open(),
+    onComplete: ({ inquiryId, status, fields }) => {
+      console.log(`Completed inquiry ${inquiryId} with status ${status}`);
+    }
+  });
+</script>
   </head>
   <body>
     <button class="center-screen" onClick="startCheck()">Start Check</button>
